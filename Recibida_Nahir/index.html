@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nahir se recibe de Odontóloga — Invitación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --petrol-900:#082523;
+    --petrol-800:#0d3532;
+    --petrol-700:#134e49;
+    --petrol-500:#1f8a7d;
+    --petrol-300:#7ecabd;
+    --blue-900:#0a1e37;
+    --blue-800:#122c4a;
+    --blue-700:#1c4576;
+    --blue-500:#3a72ac;
+    --blue-300:#9bc0e0;
+    --white:#ffffff;
+    --off:#f2ecdc;
+    --ink:#0a2420;
+    --spotify:#1DB954;
+    --pop-shadow:6px 6px 0px var(--ink);
+    --pop-shadow-sm:4px 4px 0px var(--ink);
+    --ease:cubic-bezier(.34,1.56,.64,1);
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; background:var(--off); color:var(--ink); font-family:'Nunito', sans-serif; font-weight:600; overflow-x:hidden; }
+  h1,h2,h3,.display{ font-family:'Baloo 2', cursive; margin:0; }
+  ::selection{ background:var(--petrol-300); color:var(--ink); }
+  a{ color:inherit; }
+  button{ font-family:inherit; }
+  img{ max-width:100%; display:block; }
+
+  .eyebrow{
+    display:inline-block; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--petrol-700); font-weight:800; background:var(--white); border:3px solid var(--ink);
+    border-radius:999px; padding:6px 16px; box-shadow:var(--pop-shadow-sm);
+  }
+  section .eyebrow{ margin-bottom:16px; }
+  .on-dark{ background:var(--petrol-900) !important; color:var(--white) !important; border-color:var(--white) !important; }
+
+  /* ============ TOP BUS PROGRESS BAR ============ */
+  #busbar{
+    position:fixed; top:0; left:0; right:0; height:34px; z-index:80;
+    background:
+      repeating-linear-gradient(90deg, var(--white) 0 22px, transparent 22px 40px) center/100% 3px no-repeat,
+      linear-gradient(var(--ink), var(--ink));
+    border-bottom:3px solid var(--ink);
+    opacity:0; transition:opacity .5s ease; pointer-events:none;
+  }
+  #busbar.show{ opacity:1; }
+  #busbar .mini-bus{ position:absolute; top:50%; left:0; width:58px; height:auto; transform:translate(0,-50%); filter:drop-shadow(2px 3px 0 rgba(0,0,0,.35)); will-change:transform; object-fit:contain; }
+
+  /* ============ COVER ============ */
+  #cover{
+    position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; cursor:pointer;
+    background: radial-gradient(circle at 25% 15%, rgba(255,255,255,.08), transparent 55%), linear-gradient(160deg, var(--petrol-700) 0%, var(--petrol-900) 45%, var(--blue-900) 100%);
+    transition:opacity .7s ease;
+  }
+  #cover.opened{ pointer-events:none; }
+  .cover-panel{ position:absolute; top:0; bottom:0; width:50%; background:linear-gradient(160deg, var(--petrol-700), var(--blue-900)); transition:transform 1s var(--ease); z-index:2; }
+  .cover-panel.left{ left:0; transform-origin:left; clip-path:polygon(0 0,100% 0,88% 100%,0 100%); }
+  .cover-panel.right{ right:0; transform-origin:right; background:linear-gradient(200deg, var(--blue-800), var(--petrol-900)); clip-path:polygon(12% 0,100% 0,100% 100%,0 100%); }
+  #cover.opened .cover-panel.left{ transform:translateX(-105%); }
+  #cover.opened .cover-panel.right{ transform:translateX(105%); }
+  .cover-content{ position:relative; z-index:5; display:flex; flex-direction:column; align-items:center; gap:20px; text-align:center; padding:0 24px; transition:opacity .4s ease, transform .5s var(--ease); }
+  #cover.opened .cover-content{ opacity:0; transform:scale(.9); }
+  .big-bus-wrap{ transition:transform .9s var(--ease), opacity .9s var(--ease); position:relative; }
+  #cover.opened .big-bus-wrap{ transform:translateX(160vw) rotate(3deg); opacity:0; }
+  .big-bus-wrap img{ width:220px; max-width:60vw; height:auto; animation:wiggle 2.4s ease-in-out infinite; filter:drop-shadow(4px 6px 0 rgba(0,0,0,.35)); }
+  @keyframes wiggle{ 0%,100%{ transform:translateY(0) rotate(-1.5deg);} 50%{ transform:translateY(-8px) rotate(1.5deg);} }
+  .cover-title{ color:var(--white); font-size:clamp(1.8rem,6.5vw,2.5rem); font-weight:800; line-height:1.08; }
+  .cover-sub{ color:rgba(255,255,255,.85); font-size:.92rem; font-weight:700; max-width:320px; }
+  .cover-kid-photo{
+    width:min(280px,65vw); aspect-ratio:1/1; background:
+      url('nahir-cumple.jpeg') center/cover no-repeat,
+      linear-gradient(160deg, var(--petrol-300), var(--blue-300));
+    border:4px solid var(--white); border-radius:16px;
+    box-shadow:var(--pop-shadow-sm); transform:rotate(-8deg);
+    animation:kidPhotoWiggle 2.8s ease-in-out infinite;
+  }
+  @keyframes kidPhotoWiggle{ 0%,100%{ transform:rotate(-8deg) translateY(0);} 50%{ transform:rotate(6deg) translateY(-5px);} }
+  .cover-cta{ margin-top:4px; display:inline-flex; align-items:center; gap:10px; background:var(--white); color:var(--petrol-900); border:3px solid var(--ink); border-radius:999px; padding:12px 22px; font-weight:800; font-size:.85rem; box-shadow:var(--pop-shadow-sm); animation:bob 1.8s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-5px);} }
+  #confetti{ position:fixed; inset:0; pointer-events:none; z-index:99; }
+
+  /* BOTÓN DE MÚSICA */
+  .music-toggle{
+    position:fixed; bottom:22px; right:22px; z-index:90;
+    width:54px; height:54px; border-radius:50%; background:var(--white); border:3px solid var(--ink);
+    display:flex; align-items:center; justify-content:center; font-size:1.4rem; cursor:pointer;
+    box-shadow:var(--pop-shadow-sm); opacity:0; pointer-events:none; transform:scale(.8);
+    transition:opacity .4s ease, transform .3s ease;
+  }
+  .music-toggle.show{ opacity:1; pointer-events:auto; transform:scale(1); }
+  .music-toggle:hover{ transform:scale(1.08); }
+  .music-toggle:active{ transform:scale(.95); }
+  .music-toggle.playing{ animation:musicPulse 1.6s ease-in-out infinite; }
+  @keyframes musicPulse{ 0%,100%{ box-shadow:var(--pop-shadow-sm), 0 0 0 0 rgba(31,138,125,.35); } 50%{ box-shadow:var(--pop-shadow-sm), 0 0 0 10px rgba(31,138,125,0); } }
+
+  /* ============ MAIN ============ */
+  main{ opacity:0; transition:opacity .7s ease .2s; }
+  main.visible{ opacity:1; }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 24px; position:relative; }
+  .divider{ display:block; width:100%; line-height:0; }
+  .divider svg{ width:100%; height:70px; display:block; }
+
+  /* EXAMEN FINAL — invitación a esperarla al salir de rendir */
+  .exam-invite{ background:var(--white); text-align:center; }
+  .exam-invite .hero-line{ margin-bottom:10px; }
+  .exam-content-card{
+    background:rgba(255,255,255,.93); border:3px solid var(--ink); border-radius:26px;
+    padding:44px clamp(20px,5vw,50px); box-shadow:var(--pop-shadow); max-width:760px; margin:0 auto;
+  }
+  .exam-photo{
+    width:min(240px,70vw); aspect-ratio:3/4; background:
+      url('foto-final.jpg') center/cover no-repeat,
+      linear-gradient(160deg, var(--petrol-300), var(--blue-300));
+    border:4px solid var(--ink); border-radius:18px;
+    box-shadow:var(--pop-shadow-sm); margin:0 auto 26px; transform:rotate(-3deg);
+  }
+  .exam-cards{ display:flex; flex-wrap:wrap; gap:20px; justify-content:center; max-width:700px; margin:0 auto 30px; }
+  .exam-cards .dress-badge{ flex:1 1 240px; text-align:center; }
+  .exam-cards .dress-badge h3{ font-size:1.2rem; }
+  .exam-date-note{
+    display:inline-flex; align-items:center; gap:8px; background:var(--off); border:3px dashed var(--petrol-500);
+    border-radius:14px; padding:10px 20px; font-weight:800; font-size:.85rem; color:var(--petrol-800); margin-bottom:30px;
+  }
+  .exam-invite .rsvp-note{ max-width:420px; margin:14px auto 0; }
+
+  .party-transition{
+    background:linear-gradient(160deg, var(--petrol-700), var(--blue-900)); color:var(--white);
+    text-align:center; padding:64px 24px;
+  }
+  .party-transition h2{ font-size:clamp(1.7rem,5vw,2.6rem); }
+  .party-transition p{ font-weight:700; opacity:.9; max-width:440px; margin:14px auto 0; line-height:1.55; }
+
+  /* PORTADA — imagen principal */
+  .portada{
+    position:relative; height:100svh; min-height:520px; display:flex; align-items:flex-end; justify-content:center;
+    padding:0 24px 64px;
+    background:
+      url('foto-principal-nahir.jpg') center/cover no-repeat,
+      linear-gradient(160deg, var(--petrol-700), var(--blue-900));
+    text-align:center;
+  }
+
+  .portada-badge{
+    background:var(--white); border:4px solid var(--ink); border-radius:18px; padding:16px 30px;
+    box-shadow:var(--pop-shadow); transform:rotate(-2deg);
+  }
+  .portada-badge .eyebrow{ margin-bottom:6px; }
+  .portada-badge h2{ font-size:clamp(1.5rem,5vw,2.1rem); color:var(--petrol-900); }
+  .portada-badge span.tag{ display:block; font-size:.8rem; font-weight:800; color:var(--blue-700); margin-top:2px; }
+  .scroll-cue{ position:absolute; bottom:20px; left:50%; transform:translateX(-50%); color:var(--white); font-size:1.6rem; animation:bob 1.8s ease-in-out infinite; z-index:3; }
+
+
+  /* HERO */
+  .hero{ min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; position:relative; padding:110px 24px 40px; background:var(--off); overflow:hidden; }
+  .hero::before{ content:"🦷"; position:absolute; top:16%; left:8%; font-size:1.6rem; }
+  .hero::after{ content:"✦"; position:absolute; bottom:20%; right:10%; font-size:1.2rem; color:var(--blue-300); }
+  .hero h1{ font-size:clamp(2.4rem,9vw,4.6rem); font-weight:800; color:var(--petrol-900); line-height:1; text-shadow:4px 4px 0 var(--petrol-300); }
+  .hero h1 .accent{ color:var(--blue-700); text-shadow:4px 4px 0 var(--blue-300); }
+  .hero h1 span.sub{ display:block; font-size:.32em; font-weight:700; color:var(--blue-700); text-shadow:none; margin-top:14px; }
+  .hero-line{ font-size:1.02rem; font-weight:700; color:var(--ink); opacity:.85; max-width:440px; margin:22px auto 0; line-height:1.55; }
+  .countdown{ margin-top:40px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .count-cell{ background:var(--white); border:3px solid var(--ink); border-radius:16px; padding:14px 16px; min-width:76px; box-shadow:var(--pop-shadow-sm); transition:transform .2s ease; }
+  .count-cell:hover{ transform:translateY(-4px) rotate(-2deg); }
+  .count-num{ font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800; color:var(--petrol-800); line-height:1; }
+  .count-label{ margin-top:4px; font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; font-weight:800; color:var(--blue-500); }
+
+  /* MASCOT — diente que camina y saluda */
+  .mascot{ background:var(--off); overflow:hidden; padding:70px 0 90px; }
+  .mascot-lane{ position:relative; height:210px; max-width:920px; margin:0 auto; }
+  .mascot-walk{
+    position:absolute; bottom:0; left:-18%;
+    display:flex; flex-direction:column; align-items:center;
+    animation:walkAcross 11s linear infinite;
+  }
+  @keyframes walkAcross{ 0%{ left:-18%; } 100%{ left:104%; } }
+  .mascot-tooth{ width:112px; height:auto; animation:footBounce .5s ease-in-out infinite; filter:drop-shadow(3px 5px 0 rgba(10,36,32,.18)); }
+  @keyframes footBounce{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-7px);} }
+  /* STORY / BUS SECTION */
+  .story{ background:var(--white); padding:90px 0 60px; text-align:center; }
+  .story-bus img{ width:min(340px,80vw); height:auto; margin:0 auto; filter:drop-shadow(5px 7px 0 rgba(10,36,32,.15)); border-radius:18px; }
+  .story h2{ font-size:clamp(1.7rem,4.5vw,2.4rem); color:var(--petrol-900); margin:20px 0 10px; }
+  .story p{ max-width:480px; margin:0 auto; font-size:1rem; line-height:1.6; color:rgba(10,36,32,.8); font-weight:700; }
+  .story .plate{ display:inline-block; margin-top:18px; background:var(--petrol-900); color:var(--white); border-radius:10px; padding:8px 18px; font-family:'Baloo 2',cursive; font-size:1.05rem; letter-spacing:.08em; border:3px solid var(--ink); box-shadow:var(--pop-shadow-sm); transform:rotate(-2deg); }
+
+  section{ padding:90px 0; position:relative; }
+  .section-head{ text-align:center; margin-bottom:54px; }
+  .section-head h2{ font-size:clamp(1.8rem,4.5vw,2.5rem); color:var(--petrol-900); margin-top:14px; }
+  .details .section-head h2, .music .section-head h2, .photos-upload .section-head h2{ color:var(--white); }
+  .reveal{ opacity:0; transform:translateY(26px) scale(.98); transition:opacity .7s var(--ease), transform .7s var(--ease); }
+  .reveal.in{ opacity:1; transform:translateY(0) scale(1); }
+  .reveal.from-left{ transform:translateX(-55px) rotate(-3deg); }
+  .reveal.from-left.in{ transform:translateX(0) rotate(0deg); }
+  .reveal.from-right{ transform:translateX(55px) rotate(3deg); }
+  .reveal.from-right.in{ transform:translateX(0) rotate(0deg); }
+  .reveal.pop{ transform:scale(.7) rotate(-5deg); }
+  .reveal.pop.in{ transform:scale(1) rotate(0deg); }
+  .detail-grid > .reveal:nth-child(1),
+  .dress-inner > .reveal:nth-child(1),
+  .exam-cards > .reveal:nth-child(1){ transition-delay:0s; }
+  .detail-grid > .reveal:nth-child(2),
+  .dress-inner > .reveal:nth-child(2),
+  .exam-cards > .reveal:nth-child(2){ transition-delay:.14s; }
+  .detail-grid > .reveal:nth-child(3){ transition-delay:.28s; }
+
+  /* Fondo removido: reemplazá 'fondo-perritos.png' por tu imagen (misma carpeta que este archivo) */
+  .dogs-gallery{ background: url('fondo-perritos.png') center/cover no-repeat; }
+
+  /* CAROUSEL (perritos) */
+  .carousel-wrap{ position:relative; display:flex; align-items:center; gap:10px; }
+  .dogs-carousel{
+    display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory;
+    padding:6px 4px 10px; flex:1; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  }
+  .dogs-carousel::-webkit-scrollbar{ display:none; }
+  .carousel-item{ flex:0 0 72%; scroll-snap-align:center; }
+  @media (min-width:640px){ .carousel-item{ flex:0 0 42%; } }
+  @media (min-width:900px){ .carousel-item{ flex:0 0 30%; } }
+  /* "Mi recorrido": fotos más grandes y rectangulares (en vez de cuadradas) */
+  #galleryGrid .gallery-item{ aspect-ratio:3/4; }
+  #galleryGrid .carousel-item{ flex:0 0 66%; }
+  @media (min-width:640px){ #galleryGrid .carousel-item{ flex:0 0 40%; } }
+  @media (min-width:900px){ #galleryGrid .carousel-item{ flex:0 0 30%; } }
+  .car-btn{
+    flex:0 0 auto; width:42px; height:42px; border-radius:50%; background:var(--white);
+    border:3px solid var(--ink); font-size:1.3rem; font-weight:800; color:var(--petrol-900);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+    box-shadow:var(--pop-shadow-sm); transition:transform .2s ease;
+  }
+  .car-btn:hover{ transform:translateY(-3px); }
+  .car-btn:active{ transform:translateY(0); }
+  .carousel-dots{ display:flex; justify-content:center; gap:8px; margin-top:16px; }
+  .carousel-dots .dot{
+    width:9px; height:9px; border-radius:50%; background:var(--petrol-300); border:2px solid var(--ink);
+    cursor:pointer; transition:transform .2s ease, background .2s ease; padding:0;
+  }
+  .carousel-dots .dot.active{ background:var(--petrol-500); transform:scale(1.3); }
+
+  /* GALLERY */
+  .gallery{ background:var(--off); }
+  .gallery-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .gallery-item{
+    position:relative; aspect-ratio:1/1; border:3px solid var(--ink); border-radius:16px; overflow:hidden;
+    cursor:pointer; box-shadow:var(--pop-shadow-sm); transition:transform .2s ease;
+    background:
+      linear-gradient(160deg, rgba(255,255,255,.15), rgba(255,255,255,0)),
+      var(--bg-img) center/cover no-repeat,
+      linear-gradient(160deg, var(--petrol-300), var(--blue-300));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .gallery-item:hover{ transform:translateY(-5px) rotate(-1deg); }
+  .gallery-item .ph-icon{ font-size:1.8rem; opacity:.75; }
+  #lightbox{
+    position:fixed; inset:0; z-index:120; background:rgba(8,37,35,.9); display:none;
+    align-items:center; justify-content:center; padding:30px; cursor:zoom-out;
+  }
+  #lightbox.show{ display:flex; }
+  #lightbox .lb-frame{
+    width:min(90vw,560px); aspect-ratio:1/1; border-radius:20px; border:4px solid var(--white);
+    background:var(--lb-img) center/cover no-repeat, linear-gradient(160deg, var(--petrol-500), var(--blue-700));
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+  }
+  #lightbox .lb-close{
+    position:absolute; top:24px; right:24px; width:44px; height:44px; border-radius:50%;
+    background:var(--white); border:3px solid var(--ink); font-weight:800; font-size:1.2rem;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+
+  /* DETAILS */
+  .details{ background:linear-gradient(165deg, var(--petrol-800), var(--blue-900)); color:var(--white); }
+  .detail-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .detail-card{ background:rgba(255,255,255,.08); border:3px solid rgba(255,255,255,.7); border-radius:20px; padding:32px 22px; text-align:center; transition:transform .25s var(--ease); }
+  .detail-card:hover{ transform:translateY(-6px) rotate(-1deg); }
+  .detail-icon{ font-size:2.2rem; margin-bottom:14px; }
+  .detail-card h3{ font-size:1.4rem; margin-bottom:8px; }
+  .detail-card p{ margin:0; font-size:.92rem; font-weight:700; line-height:1.55; color:rgba(255,255,255,.85); }
+  .map-btn{ display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:.75rem; font-weight:800; text-transform:uppercase; color:var(--petrol-900); background:var(--white); border:3px solid var(--ink); border-radius:999px; padding:8px 16px; text-decoration:none; box-shadow:var(--pop-shadow-sm); transition:transform .2s ease; }
+  .map-btn:hover{ transform:translateY(-3px); }
+
+  /* TIMELINE */
+  .timeline{ background:var(--off); }
+  .tl-list{ max-width:560px; margin:0 auto; position:relative; padding-left:38px; }
+  .tl-list::before{ content:""; position:absolute; left:10px; top:6px; bottom:6px; width:4px; background:repeating-linear-gradient(var(--petrol-500) 0 10px, transparent 10px 18px); border-radius:4px; }
+  .tl-item{ position:relative; padding-bottom:38px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{ content:"🚌"; position:absolute; left:-38px; top:-4px; width:30px; height:30px; background:var(--white); border:3px solid var(--ink); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:.9rem; }
+  .tl-time{ font-family:'Baloo 2',cursive; font-size:1.25rem; font-weight:800; color:var(--blue-700); }
+  .tl-title{ font-size:.95rem; font-weight:700; margin-top:2px; color:var(--ink); }
+
+  /* DRESS */
+  .dress{ background:var(--white); }
+  .dress-inner{ display:flex; flex-wrap:wrap; gap:24px; justify-content:center; max-width:760px; margin:0 auto; }
+  .dress-badge{ flex:1 1 260px; border:3px solid var(--ink); border-radius:22px; padding:30px 26px; background:var(--off); box-shadow:var(--pop-shadow-sm); transition:transform .2s ease; }
+  .dress-badge:hover{ transform:translateY(-4px) rotate(1deg); }
+  .dress-badge h3{ font-size:1.4rem; color:var(--petrol-800); margin-bottom:8px; }
+  .dress-badge p{ margin:0; font-size:.92rem; line-height:1.6; font-weight:700; color:rgba(10,36,32,.8); }
+  .swatches{ display:flex; gap:8px; margin-top:16px; }
+  .swatch{ width:24px; height:24px; border-radius:50%; border:2.5px solid var(--ink); }
+
+  /* MUSIC */
+  .music{ background:linear-gradient(165deg, var(--blue-900), var(--petrol-900)); color:var(--white); }
+  .music-inner{ max-width:560px; margin:0 auto; text-align:center; }
+  .music-inner > p{ font-weight:700; opacity:.9; line-height:1.6; margin-bottom:26px; }
+  .spotify-btn{
+    display:inline-flex; align-items:center; gap:10px; background:var(--spotify); color:var(--ink);
+    font-weight:800; border:3px solid var(--ink); border-radius:999px; padding:14px 26px; font-size:.95rem;
+    text-decoration:none; box-shadow:var(--pop-shadow-sm); transition:transform .2s ease; margin-bottom:36px;
+  }
+  .spotify-btn:hover{ transform:translateY(-3px); }
+  .music-card{ background:var(--white); color:var(--ink); border:3px solid var(--ink); border-radius:22px; padding:34px clamp(20px,5vw,42px); box-shadow:var(--pop-shadow); text-align:left; }
+  .music-card h3{ font-size:1.3rem; color:var(--petrol-800); margin-bottom:16px; text-align:center; }
+
+  /* FOTOS DE LA FIESTA (DRIVE) */
+  .photos-upload{ background:linear-gradient(165deg, var(--petrol-800), var(--blue-900)); color:var(--white); }
+  .photos-upload p{ font-weight:700; opacity:.9; line-height:1.6; margin-bottom:30px; }
+  .drive-btn{
+    display:inline-flex; align-items:center; gap:10px; background:var(--white); color:var(--petrol-900);
+    font-weight:800; border:3px solid var(--ink); border-radius:999px; padding:14px 26px; font-size:.95rem;
+    text-decoration:none; box-shadow:var(--pop-shadow-sm); transition:transform .2s ease;
+  }
+  .drive-btn:hover{ transform:translateY(-3px); }
+  .photos-upload .hint{ margin-top:18px; font-size:.78rem; font-weight:700; opacity:.75; }
+
+  /* RSVP + shared form styles */
+  .rsvp{ background:linear-gradient(180deg, var(--white), var(--off)); }
+  .rsvp-card{ max-width:560px; margin:0 auto; background:var(--white); border:3px solid var(--ink); border-radius:24px; padding:40px clamp(22px,5vw,48px); box-shadow:var(--pop-shadow); }
+  .field{ margin-bottom:20px; text-align:left; }
+  .field label{ display:block; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; font-weight:800; color:var(--blue-700); margin-bottom:8px; }
+  .field input, .field select{ width:100%; padding:12px 14px; border:2.5px solid var(--ink); border-radius:12px; font-family:'Nunito',sans-serif; font-weight:700; font-size:.96rem; background:var(--off); color:var(--ink); }
+  .field input:focus, .field select:focus{ outline:none; border-color:var(--petrol-500); box-shadow:0 0 0 4px rgba(31,138,125,.2); }
+  .submit-btn{ width:100%; padding:15px; border:3px solid var(--ink); border-radius:14px; background:var(--petrol-500); color:var(--white); font-family:'Baloo 2',cursive; font-size:1rem; font-weight:700; cursor:pointer; box-shadow:var(--pop-shadow-sm); transition:transform .2s ease; }
+  .submit-btn.alt{ background:var(--blue-700); }
+  .submit-btn:hover{ transform:translate(-2px,-3px); }
+  .submit-btn:active{ transform:translate(0,0); box-shadow:2px 2px 0 var(--ink); }
+  .rsvp-note{ text-align:center; font-size:.8rem; font-weight:700; color:rgba(10,36,32,.6); margin-top:14px; }
+
+  footer{ padding:56px 24px 40px; text-align:center; background:var(--petrol-900); color:rgba(255,255,255,.8); }
+  footer .hashtag{ font-family:'Baloo 2',cursive; font-size:1.4rem; color:var(--white); margin-bottom:8px; }
+  footer small{ font-size:.72rem; letter-spacing:.08em; font-weight:700; color:rgba(255,255,255,.5); }
+  .footer-copyright{ font-size:.78rem; font-weight:700; margin:0 0 6px; color:rgba(255,255,255,.6); }
+  .footer-dev{ font-size:.85rem; font-weight:800; margin:0 0 12px; color:rgba(255,255,255,.85); }
+  .dev-link{ color:var(--white); }
+  .footer-more-info{ display:inline-block; font-size:.78rem; font-weight:800; color:var(--white); text-decoration:underline; text-underline-offset:3px; }
+
+  @media (max-width:720px){
+    .detail-grid{ grid-template-columns:1fr; }
+    .gallery-grid{ grid-template-columns:repeat(2,1fr); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Colectivo Tesa: usa el mismo archivo 'Tesa.png' que la portada -->
+<div id="busbar" aria-hidden="true">
+  <img class="mini-bus" src="colectivo-tesa.png" alt="Colectivo Tesa">
+</div>
+
+<div id="cover" role="button" tabindex="0" aria-label="Tocar para abrir la invitación">
+  <div class="cover-panel left"></div>
+  <div class="cover-panel right"></div>
+  <div class="cover-content">
+    <div class="big-bus-wrap">
+      <img src="Tesa.png" alt="Colectivo Tesa">
+    </div>
+    <div class="cover-title">¡Súbete al colectivo<br>de la fiesta!</div>
+    <div class="cover-sub">El colectivo que me acompañó durante toda la carrera, te invita a festejar que ya soy Odontóloga</div>
+    <div class="cover-cta">Tocá para arrancar</div>
+  </div>
+</div>
+<canvas id="confetti"></canvas>
+
+<!-- Música de fondo: subí tu archivo con el nombre exacto 'musica.mp3' en la misma carpeta que este archivo -->
+<audio id="bgMusic" src="musica2.mp3" loop preload="auto"></audio>
+<button class="music-toggle" id="musicToggle" aria-label="Reproducir música" type="button">🎵</button>
+
+<main>
+
+  <!-- ===== INVITACIÓN AL FINAL (ANTES DE LA FIESTA) ===== -->
+  <section class="exam-invite">
+    <div class="wrap">
+      <div class="exam-content-card">
+      <!-- Reemplazá 'foto-final.jpg' (misma carpeta que este archivo) por tu foto -->
+      <div class="exam-photo reveal pop"></div>
+      <div class="section-head reveal">
+        <span class="eyebrow">Antes de la fiesta</span>
+        <h2>¡Vení a esperarme cuando salga de rendir! 🎓</h2>
+      </div>
+      <p class="hero-line reveal" style="margin:0 auto 34px;">Voy a rendir mi último final y si querés estar ahí para el abrazo apenas salga, te espero. Después de esto, ¡arrancamos con los festejos!</p>
+      <div class="exam-cards">
+        <div class="dress-badge reveal from-left">
+          <h3>📍 Lugar</h3>
+          <p>Facultad de Odontología – UNT</p>
+          <a class="map-btn" style="margin-top:12px;" href="https://www.google.com/maps/search/?api=1&query=Facultad+de+Odontolog%C3%ADa+UNT+Tucuman" target="_blank" rel="noopener">Cómo llegar →</a>
+        </div>
+        <div class="dress-badge reveal from-right">
+          <h3>⏰ Hora</h3>
+          <p>8:00 hs de la mañana</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <span class="exam-date-note">🗓️ Fecha: a confirmar — ¡en cuanto la sepa, aviso!</span>
+      </div>
+      <!-- Countdown de referencia: actualizá 'EXAM_DATE' en el script cuando tengas la fecha real -->
+      <div class="countdown reveal" id="examCountdown" aria-live="polite">
+        <div class="count-cell"><div class="count-num" id="ex-days">00</div><div class="count-label">Días</div></div>
+        <div class="count-cell"><div class="count-num" id="ex-hours">00</div><div class="count-label">Horas</div></div>
+        <div class="count-cell"><div class="count-num" id="ex-mins">00</div><div class="count-label">Min</div></div>
+        <div class="count-cell"><div class="count-num" id="ex-secs">00</div><div class="count-label">Seg</div></div>
+      </div>
+      <p class="rsvp-note reveal">* Este contador es de referencia, con la fecha se va a actualizar apenas esté confirmada.</p>
+      </div>
+    </div>
+  </section>
+
+  <span class="divider"><svg viewBox="0 0 1440 70" preserveAspectRatio="none"><path d="M0,50 C 340,-10 1100,90 1440,20 L1440,70 L0,70 Z" fill="#0d3532"/></svg></span>
+
+  <section class="party-transition">
+    <div class="wrap">
+      <h2 class="reveal">Y después de eso... ¡a festejar! 🎉</h2>
+      <!-- Reemplazá 'nahir-cumple.jpeg' (misma carpeta que este archivo) por tu foto de chiquita -->
+      <div class="cover-kid-photo reveal pop" style="margin:22px auto 6px;"></div>
+      <p class="reveal">Y ya que estamos... también festejamos mi cumpleaños, así que esto es doble motivo de fiesta 😅🎉 Acá abajo están todos los detalles.</p>
+    </div>
+  </section>
+
+  <span class="divider"><svg viewBox="0 0 1440 70" preserveAspectRatio="none" style="transform:scaleY(-1)"><path d="M0,50 C 340,-10 1100,90 1440,20 L1440,70 L0,70 Z" fill="#0d3532"/></svg></span>
+
+  <!-- ===== PORTADA: IMAGEN PRINCIPAL (INVITACIÓN A LA FIESTA) ===== -->
+  <section class="portada" aria-label="Foto principal de Nahir">
+    <!-- Reemplazá 'foto-principal-nahir.jpg' (misma carpeta que este archivo) por la foto real -->
+    <span class="scroll-cue">↓</span>
+  </section>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">Vos estás invitado/a a celebrar</span>
+      <h1>Me recibí <span class="accent"></span><span class="sub"></span></h1>
+      <p class="hero-line">Después de tantas noches de estudio (y tantos viajes en colectivo), por fin llegó el día. Preparate la sonrisa, ¡hay fiesta!</p>
+      <div class="countdown" id="countdown" aria-live="polite">
+        <div class="count-cell"><div class="count-num" id="cd-days">00</div><div class="count-label">Días</div></div>
+        <div class="count-cell"><div class="count-num" id="cd-hours">00</div><div class="count-label">Horas</div></div>
+        <div class="count-cell"><div class="count-num" id="cd-mins">00</div><div class="count-label">Min</div></div>
+        <div class="count-cell"><div class="count-num" id="cd-secs">00</div><div class="count-label">Seg</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mascot">
+    <div class="mascot-lane reveal">
+      <div class="mascot-walk">
+        <svg class="mascot-tooth" viewBox="0 0 140 190" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22,44 Q22,12 70,12 Q118,12 118,44 L118,86 Q118,116 100,136 Q93,148 82,130 Q76,118 70,118 Q64,118 58,130 Q47,148 40,136 Q22,116 22,86 Z" fill="#ffffff" stroke="#0a2420" stroke-width="6"/>
+          <ellipse cx="46" cy="40" rx="10" ry="14" fill="#eaf6f3" opacity=".8"/>
+          <circle cx="55" cy="58" r="4.5" fill="#0a2420"/><circle cx="85" cy="58" r="4.5" fill="#0a2420"/>
+          <path d="M53 72 Q70 86 87 72" stroke="#0a2420" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+ 
+
+  <!-- ===== GALERÍA DE FOTOS ===== -->
+  <section class="gallery">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Recuerdos</span>
+        <h2>Mi recorrido</h2>
+      </div>
+      <!-- Reemplazá las imágenes de fondo (foto-galeria-1.jpeg ... foto-galeria-8.jpeg) por tus fotos reales -->
+      <div class="carousel-wrap reveal">
+        <button class="car-btn car-prev" id="memoriesPrev" aria-label="Foto anterior">‹</button>
+        <div class="dogs-carousel" id="galleryGrid">
+          <div class="gallery-item carousel-item" style="--bg-img:url('foto-galeria-1.jpeg')" data-img="foto-galeria-1.jpeg"><span class="ph-icon">🦷</span></div>
+          <div class="gallery-item carousel-item" style="--bg-img:url('foto-galeria-2.jpeg')" data-img="foto-galeria-2.jpeg"><span class="ph-icon">🎓</span></div>
+          <div class="gallery-item carousel-item" style="--bg-img:url('foto-galeria-3.jpeg')" data-img="foto-galeria-3.jpeg"><span class="ph-icon">🚌</span></div>
+          <div class="gallery-item carousel-item" style="--bg-img:url('foto-galeria-4.jpeg')" data-img="foto-galeria-4.jpeg"><span class="ph-icon">📚</span></div>
+          <div class="gallery-item carousel-item" style="--bg-img:url('foto-galeria-5.jpeg')" data-img="foto-galeria-5.jpeg"><span class="ph-icon">✨</span></div>
+          <div class="gallery-item carousel-item" style="--bg-img:url('foto-galeria-6.jpeg')" data-img="foto-galeria-6.jpeg"><span class="ph-icon">🎉</span></div>
+          <div class="gallery-item carousel-item" style="--bg-img:url('foto-galeria-7.jpeg')" data-img="foto-galeria-7.jpeg"><span class="ph-icon">🎊</span></div>
+          <div class="gallery-item carousel-item" style="--bg-img:url('foto-galeria-8.jpeg')" data-img="foto-galeria-8.jpeg"><span class="ph-icon">💚</span></div>
+        </div>
+        <button class="car-btn car-next" id="memoriesNext" aria-label="Foto siguiente">›</button>
+      </div>
+      <div class="carousel-dots" id="memoriesDots"></div>
+    </div>
+  </section>
+
+  <div id="lightbox">
+    <div class="lb-close" id="lbClose">✕</div>
+    <div class="lb-frame" id="lbFrame"></div>
+  </div>
+
+  <!-- ===== COMPAÑEROS DE ESTUDIO (PERRITOS) ===== -->
+  <section class="dogs-gallery" id="dogsSection">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Mis compañeros de estudio</span>
+        <h2>Los compañeros de estudio 🐶</h2>
+      </div>
+      <!-- Reemplazá las imágenes de fondo (perro-1.jpg ... perro-3.jpg) por las fotos reales de los perritos -->
+      <div class="carousel-wrap reveal">
+        <button class="car-btn car-prev" id="dogsPrev" aria-label="Foto anterior">‹</button>
+        <div class="dogs-carousel" id="dogsGrid">
+          <div class="gallery-item carousel-item" style="--bg-img:url('cuquie.png')" data-img="cuquie.png"><span class="ph-icon">🐶</span></div>
+          <div class="gallery-item carousel-item" style="--bg-img:url('archie.png')" data-img="archie.png"><span class="ph-icon">🐾</span></div>
+          <div class="gallery-item carousel-item" style="--bg-img:url('oddie.png')" data-img="oddie.png"><span class="ph-icon">🐕</span></div>
+        </div>
+        <button class="car-btn car-next" id="dogsNext" aria-label="Foto siguiente">›</button>
+      </div>
+      <div class="carousel-dots" id="dogsDots"></div>
+    </div>
+  </section>
+
+  <section class="details">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow on-dark">Los datos</span>
+        <h2>Cuándo y dónde</h2>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-card reveal from-left">
+          <div class="detail-icon">🗓️</div>
+          <h3>Fecha</h3>
+          <p>Sábado 14 de noviembre de 2026<br>21:00 hs</p>
+        </div>
+        <div class="detail-card reveal pop">
+          <div class="detail-icon">📍</div>
+          <h3>Lugar</h3>
+          <p>Salón Costanera Eventos<br>Av. Costanera 1450, San Miguel de Tucumán</p>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Av.+Costanera+1450+San+Miguel+de+Tucuman" target="_blank" rel="noopener">Cómo llegar →</a>
+        </div>
+        <div class="detail-card reveal from-right">
+          <div class="detail-icon">👗</div>
+          <h3>Código</h3>
+          <p>Elegante sport<br>Colores petróleo, azules y blancos, ¡bienvenidos!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="timeline">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">La noche</span>
+        <h2>Así va a ser el festejo</h2>
+      </div>
+      <div class="tl-list reveal">
+        <div class="tl-item"><div class="tl-time">21:00</div><div class="tl-title">Recepción y bienvenida</div></div>
+        <div class="tl-item"><div class="tl-time">21:30</div><div class="tl-title">Brindis y palabras</div></div>
+        <div class="tl-item"><div class="tl-time">22:00</div><div class="tl-title">Cena</div></div>
+        <div class="tl-item"><div class="tl-time">23:30</div><div class="tl-title">Video y recuerdos de la carrera</div></div>
+        <div class="tl-item"><div class="tl-time">00:00</div><div class="tl-title">¡A bailar! Fiesta hasta el amanecer</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dress">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Un detalle</span>
+        <h2>Vení con tus mejores colores</h2>
+      </div>
+      <div class="dress-inner">
+        <div class="dress-badge reveal from-left">
+          <h3>Vestimenta</h3>
+          <p>Elegante sport. Si querés sumarte a la paleta de la noche, te proponemos estos tonos.</p>
+          <div class="swatches">
+            <span class="swatch" style="background:#134e49"></span>
+            <span class="swatch" style="background:#1c4576"></span>
+            <span class="swatch" style="background:#ffffff"></span>
+            <span class="swatch" style="background:#9bc0e0"></span>
+          </div>
+        </div>
+        <div class="dress-badge reveal from-right">
+          <h3>Un pedido</h3>
+          <p>El mejor regalo es tu presencia. Si querés hacer algo más, una cajita colaborativa para el viaje de egresados es más que bienvenida. Ah, ¡y sonreí que hay fotos toda la noche! 😄🦷</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MÚSICA / PLAYLIST ===== -->
+  <section class="music">
+    <div class="wrap music-inner">
+      <div class="section-head reveal">
+        <span class="eyebrow on-dark">Pista de baile</span>
+        <h2>¿Qué canción no puede faltar? 🎵</h2>
+      </div>
+      <p class="reveal">Armamos una playlist compartida para la fiesta. Sumate y agregá los temas que no pueden faltar cuando llegue tu turno de bailar.</p>
+      <!-- Reemplazá el link por el de tu playlist colaborativa de Spotify -->
+      <a class="spotify-btn reveal" href="https://open.spotify.com/playlist/XXXXXXXXXXXXXXXXXXXXXX" target="_blank" rel="noopener">🎧 Sumate a la playlist en Spotify</a>
+
+      <form class="music-card reveal pop" id="songForm">
+        <h3>O contame acá tu sugerencia</h3>
+        <div class="field">
+          <label for="songName">Tu nombre (opcional)</label>
+          <input type="text" id="songName" placeholder="¿Quién sugiere?">
+        </div>
+        <div class="field">
+          <label for="songTitle">Canción</label>
+          <input type="text" id="songTitle" required placeholder="Título de la canción">
+        </div>
+        <div class="field">
+          <label for="songArtist">Artista</label>
+          <input type="text" id="songArtist" placeholder="Artista o banda">
+        </div>
+        <button type="submit" class="submit-btn alt">🎶 Enviar sugerencia</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="rsvp">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Confirmación</span>
+        <h2>¿Nos acompañás?</h2>
+      </div>
+      <form class="rsvp-card reveal pop" id="rsvpForm">
+        <div class="field">
+          <label for="name">Nombre y apellido</label>
+          <input type="text" id="name" required placeholder="Tu nombre">
+        </div>
+        <div class="field">
+          <label for="attend">¿Vas a venir?</label>
+          <select id="attend">
+            <option value="Sí, ahí estaré">Sí, ahí estaré 🎉</option>
+            <option value="No voy a poder ir">No voy a poder ir</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="guests">Cantidad de acompañantes</label>
+          <input type="number" id="guests" min="0" value="0">
+        </div>
+        <button type="submit" class="submit-btn">🚌 Confirmar por WhatsApp</button>
+        <p class="rsvp-note">Por favor confirmá antes del 1 de noviembre</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOTOS DE LA FIESTA (DRIVE) ===== -->
+  <section class="photos-upload">
+    <div class="wrap music-inner">
+      <div class="section-head reveal">
+        <span class="eyebrow on-dark">Recuerdos de la noche</span>
+        <h2>¿Sacaste fotos en la fiesta? 📸</h2>
+      </div>
+      <p class="reveal">Subí las fotos y videos que saques esa noche a esta carpeta compartida, así armamos entre todos el álbum completo de la fiesta.</p>
+      <!-- Reemplazá el link por el de tu carpeta compartida de Google Drive -->
+      <a class="drive-btn reveal" href="https://drive.google.com/drive/folders/XXXXXXXXXXXXXXXXXXXXXXXXXXXX?usp=sharing" target="_blank" rel="noopener">📁 Subir fotos a Google Drive</a>
+      <p class="hint reveal">Cualquiera con el link puede ver y subir archivos a la carpeta.</p>
+    </div>
+  </section>
+
+  <footer class="invitation-footer">
+    <p class="footer-copyright">Copyright &copy; 2026 <a href="https://wa.me/5493865244579" target="_blank"
+        rel="noopener noreferrer" class="dev-link"></a></p>
+    <p class="footer-dev">
+      Desarrollado por Elías Said
+    </p>
+    <a href="https://wa.me/5493865244579" target="_blank" rel="noopener noreferrer"
+        class="dev-link footer-more-info">Click aquí para más información</a>
+  </footer>
+
+</main>
+
+<script>
+  const cover = document.getElementById('cover');
+  const mainEl = document.querySelector('main');
+  const busbar = document.getElementById('busbar');
+  const WHATSAPP_NUMBER = '5493815550182'; // reemplazar por el número real, sin +
+
+  // Música de fondo
+  const bgMusic = document.getElementById('bgMusic');
+  const musicToggle = document.getElementById('musicToggle');
+  let musicPlaying = false;
+  bgMusic.volume = 0.55;
+  function updateMusicToggle(){
+    musicToggle.textContent = musicPlaying ? '⏸️' : '🎵';
+    musicToggle.classList.toggle('playing', musicPlaying);
+    musicToggle.setAttribute('aria-label', musicPlaying ? 'Pausar música' : 'Reproducir música');
+  }
+  function tryPlayMusic(){
+    bgMusic.play().then(()=>{ musicPlaying = true; updateMusicToggle(); }).catch(()=>{ musicPlaying = false; updateMusicToggle(); });
+  }
+  musicToggle.addEventListener('click', ()=>{
+    if(musicPlaying){ bgMusic.pause(); musicPlaying = false; } else { tryPlayMusic(); return; }
+    updateMusicToggle();
+  });
+
+  function openInvite(){
+    if(cover.classList.contains('opened')) return;
+    cover.classList.add('opened');
+    launchConfetti();
+    tryPlayMusic();
+    setTimeout(()=>{
+      cover.style.opacity = '0';
+      mainEl.classList.add('visible');
+      busbar.classList.add('show');
+      musicToggle.classList.add('show');
+      document.body.style.overflow = 'auto';
+    }, 500);
+    setTimeout(()=>{ cover.style.display = 'none'; }, 1300);
+  }
+  document.body.style.overflow = 'hidden';
+  cover.addEventListener('click', openInvite);
+  cover.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openInvite(); } });
+
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  const colors = ['#1f8a7d','#1c4576','#ffffff','#7ecabd','#9bc0e0'];
+  let particles = [];
+  function launchConfetti(){
+    particles = [];
+    const count = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 90;
+    for(let i=0;i<count;i++){
+      particles.push({
+        x: canvas.width/2 + (Math.random()-0.5)*160,
+        y: canvas.height/2 + (Math.random()-0.5)*40,
+        vx:(Math.random()-0.5)*9, vy:(Math.random()*-9)-4,
+        size:Math.random()*7+4, color:colors[Math.floor(Math.random()*colors.length)],
+        rot:Math.random()*360, vr:(Math.random()-0.5)*10, life:0
+      });
+    }
+    requestAnimationFrame(tickConfetti);
+  }
+  function tickConfetti(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive = false;
+    particles.forEach(p=>{
+      p.vy += 0.28; p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life++;
+      if(p.life < 160){
+        alive = true;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+        ctx.fillStyle = p.color; ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*0.6);
+        ctx.restore();
+      }
+    });
+    if(alive) requestAnimationFrame(tickConfetti); else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+
+  const targetDate = new Date('2026-11-14T21:00:00');
+  const elDays = document.getElementById('cd-days');
+  const elHours = document.getElementById('cd-hours');
+  const elMins = document.getElementById('cd-mins');
+  const elSecs = document.getElementById('cd-secs');
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function updateCountdown(){
+    const now = new Date();
+    let diff = targetDate - now;
+    if(diff < 0) diff = 0;
+    elDays.textContent = pad(Math.floor(diff/(1000*60*60*24)));
+    elHours.textContent = pad(Math.floor((diff/(1000*60*60))%24));
+    elMins.textContent = pad(Math.floor((diff/(1000*60))%60));
+    elSecs.textContent = pad(Math.floor((diff/1000)%60));
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Contador de referencia para el día del final (actualizá EXAM_DATE cuando tengas la fecha real)
+  const EXAM_DATE = new Date('2026-10-15T08:00:00');
+  const exDays = document.getElementById('ex-days');
+  const exHours = document.getElementById('ex-hours');
+  const exMins = document.getElementById('ex-mins');
+  const exSecs = document.getElementById('ex-secs');
+  function updateExamCountdown(){
+    if(!exDays) return;
+    const now = new Date();
+    let diff = EXAM_DATE - now;
+    if(diff < 0) diff = 0;
+    exDays.textContent = pad(Math.floor(diff/(1000*60*60*24)));
+    exHours.textContent = pad(Math.floor((diff/(1000*60*60))%24));
+    exMins.textContent = pad(Math.floor((diff/(1000*60))%60));
+    exSecs.textContent = pad(Math.floor((diff/1000)%60));
+  }
+  updateExamCountdown();
+  setInterval(updateExamCountdown, 1000);
+
+  const revealEls = document.querySelectorAll('.reveal:not(.in)');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+    });
+  }, { threshold:0.18 });
+  revealEls.forEach(el=> io.observe(el));
+
+  const miniBus = busbar.querySelector('.mini-bus');
+  let ticking = false;
+  function updateBusBar(){
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop || document.body.scrollTop;
+    const scrollHeight = (doc.scrollHeight - doc.clientHeight) || 1;
+    const frac = Math.min(Math.max(scrollTop / scrollHeight, 0), 1);
+    const barWidth = window.innerWidth;
+    const x = frac * (barWidth - 56);
+    miniBus.style.transform = `translate(${x}px,-50%)`;
+    ticking = false;
+  }
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){ requestAnimationFrame(updateBusBar); ticking = true; }
+  });
+  window.addEventListener('resize', updateBusBar);
+  updateBusBar();
+
+  // Gallery lightbox (funciona para ambas galerías: fotos y perritos)
+  const lightbox = document.getElementById('lightbox');
+  const lbFrame = document.getElementById('lbFrame');
+  function wireGallery(id){
+    const grid = document.getElementById(id);
+    if(!grid) return;
+    grid.addEventListener('click', (e)=>{
+      const item = e.target.closest('.gallery-item');
+      if(!item) return;
+      lbFrame.style.setProperty('--lb-img', `url('${item.dataset.img}')`);
+      lightbox.classList.add('show');
+    });
+  }
+  wireGallery('galleryGrid');
+  wireGallery('dogsGrid');
+
+  // Carrusel: flechas + puntos (reutilizable para ambas galerías)
+  function initCarousel(trackId, dotsId, prevId, nextId){
+    const track = document.getElementById(trackId);
+    const dotsWrap = document.getElementById(dotsId);
+    const prevBtn = document.getElementById(prevId);
+    const nextBtn = document.getElementById(nextId);
+    if(!track || !dotsWrap) return;
+    const items = Array.from(track.children);
+
+    items.forEach((_, i)=>{
+      const dot = document.createElement('button');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', `Ir a la foto ${i+1}`);
+      dot.addEventListener('click', ()=>{
+        items[i].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+      });
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
+
+    function scrollByItem(dir){
+      const w = items[0].getBoundingClientRect().width + 16;
+      track.scrollBy({ left: dir * w, behavior:'smooth' });
+    }
+    prevBtn && prevBtn.addEventListener('click', ()=> scrollByItem(-1));
+    nextBtn && nextBtn.addEventListener('click', ()=> scrollByItem(1));
+
+    let dotTicking = false;
+    track.addEventListener('scroll', ()=>{
+      if(dotTicking) return;
+      dotTicking = true;
+      requestAnimationFrame(()=>{
+        const trackCenter = track.scrollLeft + track.clientWidth/2;
+        let closest = 0, closestDist = Infinity;
+        items.forEach((item, i)=>{
+          const dist = Math.abs((item.offsetLeft + item.clientWidth/2) - trackCenter);
+          if(dist < closestDist){ closestDist = dist; closest = i; }
+        });
+        dots.forEach((d,i)=> d.classList.toggle('active', i === closest));
+        dotTicking = false;
+      });
+    });
+  }
+  initCarousel('galleryGrid', 'memoriesDots', 'memoriesPrev', 'memoriesNext');
+  initCarousel('dogsGrid', 'dogsDots', 'dogsPrev', 'dogsNext');
+
+  function closeLightbox(){ lightbox.classList.remove('show'); }
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
+
+  // RSVP -> WhatsApp
+  document.getElementById('rsvpForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const attend = document.getElementById('attend').value;
+    const guests = document.getElementById('guests').value;
+    const msg = `¡Hola! Soy ${name}. ${attend}` + (guests > 0 ? ` y llevo ${guests} acompañante(s).` : '.') + ' Nos vemos en la fiesta de recibida de Nahir 🎓🚌';
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+
+  // Song suggestion -> WhatsApp
+  document.getElementById('songForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('songName').value.trim();
+    const title = document.getElementById('songTitle').value.trim();
+    const artist = document.getElementById('songArtist').value.trim();
+    const who = name ? `Soy ${name}. ` : '';
+    const msg = `🎵 ${who}Sugerencia para la playlist de la fiesta de Nahir: "${title}"` + (artist ? ` - ${artist}` : '');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+  });
+</script>
+</body>
+</html>
