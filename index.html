@@ -253,9 +253,9 @@
   @media (min-width:900px){ .carousel-item{ flex:0 0 30%; } }
   /* "Mi recorrido": fotos más grandes y rectangulares (en vez de cuadradas) */
   #galleryGrid .gallery-item{ aspect-ratio:3/4; }
-  #galleryGrid .carousel-item{ flex:0 0 66%; }
-  @media (min-width:640px){ #galleryGrid .carousel-item{ flex:0 0 40%; } }
-  @media (min-width:900px){ #galleryGrid .carousel-item{ flex:0 0 30%; } }
+  #galleryGrid .carousel-item{ flex:0 0 88%; }
+  @media (min-width:640px){ #galleryGrid .carousel-item{ flex:0 0 55%; } }
+  @media (min-width:900px){ #galleryGrid .carousel-item{ flex:0 0 38%; } }
   .car-btn{
     flex:0 0 auto; width:42px; height:42px; border-radius:50%; background:var(--white);
     border:3px solid var(--ink); font-size:1.3rem; font-weight:800; color:var(--petrol-900);
@@ -378,6 +378,7 @@
   /* FOTOS DE LA FIESTA (DRIVE) */
   .photos-upload{ background:linear-gradient(165deg, var(--petrol-800), var(--blue-900)); color:var(--white); }
   .photos-upload p{ font-weight:700; opacity:.9; line-height:1.6; margin-bottom:30px; }
+  .photos-upload .music-inner > p{ color:var(--white); }
   .photos-png{ width:min(200px,50vw); height:auto; margin:0 auto 20px; background:none; animation:musicGifFloat 3.4s ease-in-out infinite; }
 
   .drive-btn{
@@ -386,7 +387,7 @@
     text-decoration:none; box-shadow:var(--pop-shadow-sm); transition:transform .2s ease;
   }
   .drive-btn:hover{ transform:translateY(-3px); }
-  .photos-upload .hint{ margin-top:18px; font-size:.78rem; font-weight:700; opacity:.75; }
+  .photos-upload .hint{ margin-top:18px; font-size:.78rem; font-weight:700; opacity:.75; color:var(--white); }
 
   /* RSVP + shared form styles */
   .rsvp{ position:relative; overflow:hidden; background:linear-gradient(180deg, var(--white), var(--off)); }
@@ -441,6 +442,13 @@
   .footer-title{
     font-family:'Baloo 2',cursive; font-size:clamp(2.4rem,8vw,3.6rem); margin:24px 0 0; color:var(--white);
     animation:neonTitlePulse 4.5s ease-in-out infinite;
+  }
+  .footer-photo{
+    width:min(240px,62vw); aspect-ratio:1/1; margin:28px auto 0; border:4px solid var(--white); border-radius:20px;
+    box-shadow:var(--pop-shadow); background:
+      url('foto-cierre.jpg') center/cover no-repeat,
+      linear-gradient(160deg, var(--petrol-300), var(--blue-300));
+    transform:rotate(-3deg);
   }
   .typing-cursor{ display:inline-block; margin-left:3px; animation:cursorBlink .9s steps(1) infinite; }
   @keyframes cursorBlink{ 0%,50%{ opacity:1; } 51%,100%{ opacity:0; } }
@@ -722,7 +730,7 @@
       <!-- Reemplazá 'playlist-gif.gif' (misma carpeta que este archivo) por tu GIF sin fondo (transparente) -->
       <img class="music-gif reveal pop" src="playlist-gif.gif" alt="" aria-hidden="true">
       <p class="reveal">Sumate y agregá los temas que no pueden faltar cuando llegue el momento de bailar.</p>
-      <a class="spotify-btn reveal" href="https://open.spotify.com/playlist/4VD47cjaNoG8oFGmUdkdtA?si=hh8asnxbQoOnWNn5zrzB_w&utm_source=copy-link&pt=49f562213e12c5b3145c22138ef8fee2&pi=C1J_A8YNRs2ty" target="_blank" rel="noopener">🎧 Sumate a la playlist en Spotify</a>
+      <a class="spotify-btn reveal" href="https://open.spotify.com/playlist/4VD47cjaNoG8oFGmUdkdtA?si=bebf516257ef4d46&pt=adedece503be3b0d48adda57137a1000" target="_blank" rel="noopener">🎧 Sumate a la playlist en Spotify</a>
     </div>
   </section>
 
@@ -779,6 +787,8 @@
     </div>
     <div class="wrap footer-content">
       <h2 class="footer-title reveal" id="footerTitle" data-text="Recibida de Nahir"><span id="footerTitleText"></span><span class="typing-cursor" aria-hidden="true">|</span></h2>
+      <!-- Reemplazá 'foto-cierre.jpg' (misma carpeta que este archivo) por la foto que quieras mostrar acá -->
+      <div class="footer-photo reveal pop"></div>
       <div class="footer-bottom reveal">
         <p class="footer-copyright">© 2026 Recibida de Nahir. Todos los derechos reservados.</p>
         <p class="footer-dev">Desarrollado por <a href="https://wa.me/5493865244579" target="_blank" rel="noopener noreferrer" class="dev-link">Elías Said</a></p>
