@@ -168,8 +168,12 @@
   .portada-bg{
     position:absolute; inset:-12% 0; z-index:0; will-change:transform;
     background:
-      url('foto-principalnahir.jpg') center/cover no-repeat,
+      url('foto-principal-nahir.jpg') center/cover no-repeat,
       linear-gradient(160deg, var(--petrol-700), var(--blue-900));
+  }
+  @media (max-width:720px){
+    .portada{ height:auto; min-height:0; padding:40px 24px; }
+    .portada-bg{ position:relative; inset:0; height:70vh; min-height:380px; background-size:contain; background-position:center; background-color:var(--petrol-900); }
   }
 
   .portada-badge{
@@ -217,10 +221,11 @@
   .section-head{ text-align:center; margin-bottom:54px; }
   .section-head h2{ font-size:clamp(1.8rem,4.5vw,2.5rem); color:var(--petrol-900); margin-top:14px; }
   .rsvp-subtitle-chip{
-    display:inline-block; margin-top:14px; background:var(--white); border:2.5px solid var(--petrol-500);
-    border-radius:999px; padding:7px 18px; font-size:.8rem; font-weight:800; color:var(--petrol-700);
-    box-shadow:var(--pop-shadow-sm);
+    display:inline-flex; align-items:center; gap:8px; margin-top:18px; background:var(--petrol-500); border:3px solid var(--ink);
+    border-radius:999px; padding:12px 26px; font-size:1rem; font-weight:800; color:var(--white);
+    box-shadow:var(--pop-shadow-sm); transform:rotate(-2deg); animation:chipPulse 2.2s ease-in-out infinite;
   }
+  @keyframes chipPulse{ 0%,100%{ transform:rotate(-2deg) scale(1);} 50%{ transform:rotate(-2deg) scale(1.05);} }
   .details .section-head h2, .photos-upload .section-head h2{ color:var(--white); }
   .reveal{ opacity:0; transform:translateY(34px) scale(.96); filter:blur(7px); transition:opacity .85s var(--ease), transform .85s var(--ease), filter .85s var(--ease); }
   .reveal.in{ opacity:1; transform:translateY(0) scale(1); filter:blur(0); }
@@ -253,9 +258,13 @@
   @media (min-width:900px){ .carousel-item{ flex:0 0 30%; } }
   /* "Mi recorrido": fotos más grandes y rectangulares (en vez de cuadradas) */
   #galleryGrid .gallery-item{ aspect-ratio:3/4; }
-  #galleryGrid .carousel-item{ flex:0 0 88%; }
+  #galleryGrid .carousel-item{ flex:0 0 94%; }
   @media (min-width:640px){ #galleryGrid .carousel-item{ flex:0 0 55%; } }
   @media (min-width:900px){ #galleryGrid .carousel-item{ flex:0 0 38%; } }
+  @media (max-width:640px){
+    #dogsSection .car-btn, .gallery .car-btn{ display:none; }
+    #dogsSection .carousel-wrap, .gallery .carousel-wrap{ gap:0; }
+  }
   .car-btn{
     flex:0 0 auto; width:42px; height:42px; border-radius:50%; background:var(--white);
     border:3px solid var(--ink); font-size:1.3rem; font-weight:800; color:var(--petrol-900);
@@ -730,7 +739,7 @@
       <!-- Reemplazá 'playlist-gif.gif' (misma carpeta que este archivo) por tu GIF sin fondo (transparente) -->
       <img class="music-gif reveal pop" src="playlist-gif.gif" alt="" aria-hidden="true">
       <p class="reveal">Sumate y agregá los temas que no pueden faltar cuando llegue el momento de bailar.</p>
-      <a class="spotify-btn reveal" href="https://open.spotify.com/playlist/4VD47cjaNoG8oFGmUdkdtA?si=bebf516257ef4d46&pt=adedece503be3b0d48adda57137a1000" target="_blank" rel="noopener">🎧 Sumate a la playlist en Spotify</a>
+      <a class="spotify-btn reveal" href="https://open.spotify.com/playlist/4VD47cjaNoG8oFGmUdkdtA?si=hh8asnxbQoOnWNn5zrzB_w&utm_source=copy-link&pt=49f562213e12c5b3145c22138ef8fee2&pi=C1J_A8YNRs2ty" target="_blank" rel="noopener">🎧 Sumate a la playlist en Spotify</a>
     </div>
   </section>
 
@@ -758,7 +767,6 @@
         <span class="rsvp-subtitle-chip" id="rsvpSubtitle">Esta invitación es para 1 persona</span>
       </div>
       <form class="rsvp-card reveal pop" id="rsvpForm">
-        <span class="rsvp-sticker">¡Contamos con vos! 🎉</span>
         <div class="field">
           <label for="name">✍️ Nombre y apellido</label>
           <input type="text" id="name" required placeholder="Tu nombre">
@@ -1011,7 +1019,7 @@
     let n = parseInt(params.get('personas'), 10);
     if(!Number.isFinite(n) || n < 1) n = 1;
     const subtitle = document.getElementById('rsvpSubtitle');
-    if(subtitle) subtitle.textContent = `Esta invitación es para ${n} persona${n > 1 ? 's' : ''}`;
+    if(subtitle) subtitle.textContent = `🎟️ Esta invitación es para ${n} persona${n > 1 ? 's' : ''}`;
     window.INVITED_COUNT = n;
   })();
 
