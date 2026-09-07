@@ -172,8 +172,8 @@
       linear-gradient(160deg, var(--petrol-700), var(--blue-900));
   }
   @media (max-width:720px){
-    .portada{ height:auto; min-height:0; padding:40px 24px; }
-    .portada-bg{ position:relative; inset:0; width:100%; flex:1 1 auto; height:70vh; min-height:380px; background-size:contain; background-position:center; background-color:var(--petrol-900); }
+    .portada{ height:auto; min-height:0; padding:24px 0; }
+    .portada-bg{ position:relative; inset:0; width:100%; flex:1 1 auto; height:88vh; min-height:460px; background-size:contain; background-position:center; background-color:var(--off); }
   }
 
   .portada-badge{
@@ -1088,6 +1088,7 @@
       dot.className = 'dot' + (i === 0 ? ' active' : '');
       dot.setAttribute('aria-label', `Ir a la foto ${i+1}`);
       dot.addEventListener('click', ()=>{
+        pauseAutoplay();
         items[i].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
       });
       dotsWrap.appendChild(dot);
@@ -1098,9 +1099,10 @@
       const w = items[0].getBoundingClientRect().width + 16;
       track.scrollBy({ left: dir * w, behavior:'smooth' });
     }
-    prevBtn && prevBtn.addEventListener('click', ()=> scrollByItem(-1));
-    nextBtn && nextBtn.addEventListener('click', ()=> scrollByItem(1));
+    prevBtn && prevBtn.addEventListener('click', ()=>{ pauseAutoplay(); scrollByItem(-1); });
+    nextBtn && nextBtn.addEventListener('click', ()=>{ pauseAutoplay(); scrollByItem(1); });
 
+    let activeIndex = 0;
     let dotTicking = false;
     track.addEventListener('scroll', ()=>{
       if(dotTicking) return;
@@ -1112,10 +1114,33 @@
           const dist = Math.abs((item.offsetLeft + item.clientWidth/2) - trackCenter);
           if(dist < closestDist){ closestDist = dist; closest = i; }
         });
+        activeIndex = closest;
         dots.forEach((d,i)=> d.classList.toggle('active', i === closest));
         dotTicking = false;
       });
     });
+
+    // ===== Autoplay: avanza sola cada pocos segundos, pero el usuario puede controlarla =====
+    let autoplayTimer = null;
+    let resumeTimer = null;
+    function startAutoplay(){
+      stopAutoplay();
+      autoplayTimer = setInterval(()=>{
+        activeIndex = (activeIndex + 1) % items.length;
+        items[activeIndex].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+      }, 3500);
+    }
+    function stopAutoplay(){
+      if(autoplayTimer){ clearInterval(autoplayTimer); autoplayTimer = null; }
+    }
+    function pauseAutoplay(){
+      stopAutoplay();
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(startAutoplay, 6000);
+    }
+    track.addEventListener('pointerdown', pauseAutoplay, { passive:true });
+    track.addEventListener('wheel', pauseAutoplay, { passive:true });
+    startAutoplay();
   }
   initCarousel('galleryGrid', 'memoriesDots', 'memoriesPrev', 'memoriesNext');
   initCarousel('dogsGrid', 'dogsDots', 'dogsPrev', 'dogsNext');
