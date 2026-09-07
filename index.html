@@ -168,7 +168,7 @@
   .portada-bg{
     position:absolute; inset:-12% 0; z-index:0; will-change:transform;
     background:
-      url('foto-principalnahir.jpg') center/cover no-repeat,
+      url('foto-principalnahir.jpg') center/contain no-repeat,
       linear-gradient(160deg, var(--petrol-700), var(--blue-900));
   }
   @media (max-width:720px){
@@ -968,7 +968,9 @@
   let parallaxTicking = false;
   function updateParallax(){
     const vh = window.innerHeight;
+    const isMobile = window.innerWidth <= 720;
     parallaxEls.forEach(el=>{
+      if(isMobile && el.classList.contains('portada-bg')){ el.style.transform = 'none'; return; }
       const speed = parseFloat(el.dataset.parallax) || 0.2;
       const rect = el.getBoundingClientRect();
       const centerOffset = (rect.top + rect.height/2) - vh/2;
