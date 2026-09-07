@@ -159,6 +159,10 @@
   }
   .party-transition h2{ font-size:clamp(1.7rem,5vw,2.6rem); }
   .party-transition p{ font-weight:700; opacity:.9; max-width:440px; margin:14px auto 0; line-height:1.55; }
+  @media (max-width:720px){
+    .party-transition{ padding:40px 24px; }
+    .divider svg{ height:40px; }
+  }
 
   /* PORTADA — imagen principal */
   .portada{
@@ -172,9 +176,9 @@
       linear-gradient(160deg, var(--petrol-700), var(--blue-900));
   }
   @media (max-width:720px){
-    .portada{ height:auto; min-height:0; padding:24px 0; }
+    .portada{ height:auto; min-height:0; padding:0; }
     .portada-bg{
-      position:relative; inset:0; width:100%; flex:1 1 auto; height:88vh; min-height:460px;
+      position:relative; inset:0; width:100%; flex:1 1 auto; height:62vh; min-height:400px;
       background:var(--off) url('foto-principal-nahir.jpg') center/contain no-repeat;
     }
   }
