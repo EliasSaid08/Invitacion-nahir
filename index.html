@@ -1082,7 +1082,7 @@
   }
 
   // Carrusel: flechas + puntos (reutilizable para ambas galerías)
-  function initCarousel(trackId, dotsId, prevId, nextId){
+  function initCarousel(trackId, dotsId, prevId, nextId, autoplay){
     const track = document.getElementById(trackId);
     const dotsWrap = document.getElementById(dotsId);
     const prevBtn = document.getElementById(prevId);
@@ -1134,29 +1134,32 @@
     });
 
     // ===== Autoplay: avanza sola cada pocos segundos, pero el usuario puede controlarla =====
-    let autoplayTimer = null;
-    let resumeTimer = null;
-    function startAutoplay(){
-      stopAutoplay();
-      autoplayTimer = setInterval(()=>{
-        activeIndex = (activeIndex + 1) % items.length;
-        scrollToIndex(activeIndex);
-      }, 3500);
+    let pauseAutoplay = function(){};
+    if(autoplay){
+      let autoplayTimer = null;
+      let resumeTimer = null;
+      const startAutoplay = ()=>{
+        stopAutoplay();
+        autoplayTimer = setInterval(()=>{
+          activeIndex = (activeIndex + 1) % items.length;
+          scrollToIndex(activeIndex);
+        }, 3500);
+      };
+      const stopAutoplay = ()=>{
+        if(autoplayTimer){ clearInterval(autoplayTimer); autoplayTimer = null; }
+      };
+      pauseAutoplay = function(){
+        stopAutoplay();
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(startAutoplay, 6000);
+      };
+      track.addEventListener('pointerdown', pauseAutoplay, { passive:true });
+      track.addEventListener('wheel', pauseAutoplay, { passive:true });
+      startAutoplay();
     }
-    function stopAutoplay(){
-      if(autoplayTimer){ clearInterval(autoplayTimer); autoplayTimer = null; }
-    }
-    function pauseAutoplay(){
-      stopAutoplay();
-      clearTimeout(resumeTimer);
-      resumeTimer = setTimeout(startAutoplay, 6000);
-    }
-    track.addEventListener('pointerdown', pauseAutoplay, { passive:true });
-    track.addEventListener('wheel', pauseAutoplay, { passive:true });
-    startAutoplay();
   }
-  initCarousel('galleryGrid', 'memoriesDots', 'memoriesPrev', 'memoriesNext');
-  initCarousel('dogsGrid', 'dogsDots', 'dogsPrev', 'dogsNext');
+  initCarousel('galleryGrid', 'memoriesDots', 'memoriesPrev', 'memoriesNext', false);
+  initCarousel('dogsGrid', 'dogsDots', 'dogsPrev', 'dogsNext', true);
 
   function closeLightbox(){ lightbox.classList.remove('show'); }
   document.getElementById('lbClose').addEventListener('click', closeLightbox);
