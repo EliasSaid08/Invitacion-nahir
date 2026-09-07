@@ -1083,13 +1083,19 @@
     if(!track || !dotsWrap) return;
     const items = Array.from(track.children);
 
+    function scrollToIndex(i){
+      const item = items[i];
+      const targetLeft = item.offsetLeft - (track.clientWidth - item.clientWidth) / 2;
+      track.scrollTo({ left: targetLeft, behavior:'smooth' });
+    }
+
     items.forEach((_, i)=>{
       const dot = document.createElement('button');
       dot.className = 'dot' + (i === 0 ? ' active' : '');
       dot.setAttribute('aria-label', `Ir a la foto ${i+1}`);
       dot.addEventListener('click', ()=>{
         pauseAutoplay();
-        items[i].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+        scrollToIndex(i);
       });
       dotsWrap.appendChild(dot);
     });
@@ -1127,7 +1133,7 @@
       stopAutoplay();
       autoplayTimer = setInterval(()=>{
         activeIndex = (activeIndex + 1) % items.length;
-        items[activeIndex].scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+        scrollToIndex(activeIndex);
       }, 3500);
     }
     function stopAutoplay(){
