@@ -366,7 +366,7 @@
   .bebida-card{ background:var(--white); }
   .bebida-sticker{ background:#e3475b; }
   .bebida-section .aporte-icon{ margin-bottom:6px; }
-  .bebida-svg{ width:88px; height:auto; filter:drop-shadow(3px 4px 0 rgba(10,36,32,.15)); animation:musicGifFloat 3.4s ease-in-out infinite; }
+  .bebida-png{ width:min(190px,50vw); height:auto; margin:0 auto; background:none; filter:drop-shadow(4px 6px 0 rgba(10,36,32,.12)); animation:musicGifFloat 3.4s ease-in-out infinite; }
   .bebida-chips{ display:flex; justify-content:center; gap:14px; margin-top:6px; font-size:1.5rem; }
   .bebida-chips span{ display:inline-block; animation:bob 1.8s ease-in-out infinite; }
   .bebida-chips span:nth-child(2){ animation-delay:.15s; }
@@ -759,17 +759,8 @@
       <div class="aporte-card bebida-card reveal pop">
         <span class="aporte-sticker bebida-sticker">¡Salud! 🥂</span>
         <div class="aporte-icon">
-          <!-- Si preferís usar tu propia imagen, reemplazá este bloque por:
-               <img class="bebida-png" src="bebida-png.png" alt="" aria-hidden="true"> -->
-          <svg class="bebida-svg" viewBox="0 0 140 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M28 20 H112 L98 92 Q97 108 82 108 H58 Q43 108 42 92 Z" fill="var(--blue-300)" stroke="#0a2420" stroke-width="6" stroke-linejoin="round"/>
-            <path d="M28 20 H112" stroke="#0a2420" stroke-width="6" stroke-linecap="round"/>
-            <path d="M70 108 V150" stroke="#0a2420" stroke-width="6" stroke-linecap="round"/>
-            <path d="M40 150 H100" stroke="#0a2420" stroke-width="6" stroke-linecap="round"/>
-            <circle cx="58" cy="52" r="9" fill="#7ecabd" stroke="#0a2420" stroke-width="4"/>
-            <path d="M85 34 L100 78" stroke="var(--white)" stroke-width="5" stroke-linecap="round" opacity=".7"/>
-            <path d="M62 8 Q78 -6 96 8 Q100 20 92 30 Q86 12 62 8 Z" fill="#e3475b" stroke="#0a2420" stroke-width="5" stroke-linejoin="round"/>
-          </svg>
+          <!-- Reemplazá 'bebida-png.png' (misma carpeta que este archivo) por tu imagen PNG sin fondo (transparente) -->
+          <img class="bebida-png" src="bebida-png.png" alt="" aria-hidden="true">
         </div>
         <p class="aporte-text">Te pedimos que traigas la bebida que quieras consumir durante la fiesta 🍹</p>
         <div class="bebida-chips" aria-hidden="true">
