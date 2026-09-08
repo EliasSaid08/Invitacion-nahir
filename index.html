@@ -359,6 +359,11 @@
   .aporte-icon{ margin-bottom:14px; display:flex; justify-content:center; }
   .aporte-tooth{ width:76px; height:auto; filter:drop-shadow(3px 4px 0 rgba(10,36,32,.15)); }
   .aporte-text{ margin:0 auto 26px; max-width:400px; font-size:.96rem; line-height:1.65; font-weight:700; color:rgba(10,36,32,.85); }
+  .bebida-section{ background:linear-gradient(165deg, var(--blue-700), var(--blue-900)); position:relative; overflow:hidden; }
+  .bebida-section .section-head h2{ color:var(--white); }
+  .bebida-section .aporte-icon{ margin-bottom:8px; }
+  .bebida-section .aporte-card{ background:var(--white); }
+  .bebida-png{ width:min(160px,42vw); height:auto; margin:0 auto; background:none; animation:musicGifFloat 3.4s ease-in-out infinite; }
   .alias-chip{
     display:inline-flex; align-items:center; gap:12px; background:var(--off); border:3px dashed var(--petrol-500);
     border-radius:999px; padding:8px 8px 8px 22px; max-width:100%;
@@ -708,7 +713,7 @@
     </div>
   </section>
 
-  <section class="dress aporte-section">
+  <section class="dress aporte-section" id="aporteSection">
     <div class="wrap">
       <div class="section-head reveal">
         <span class="eyebrow">Un gesto que se agradece</span>
@@ -732,6 +737,23 @@
           <button type="button" class="copy-btn" id="copyAliasBtn" aria-label="Copiar alias">📋</button>
         </div>
         <p class="copy-feedback" id="copyFeedback" aria-live="polite">&nbsp;</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BEBIDA A TRAER ===== -->
+  <section class="dress bebida-section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Para brindar con gusto</span>
+        <h2>¿Qué te gustaría tomar? 🥤</h2>
+      </div>
+      <div class="aporte-card reveal pop">
+        <div class="aporte-icon">
+          <!-- Reemplazá 'bebida-png.png' (misma carpeta que este archivo) por tu imagen PNG sin fondo (transparente) -->
+          <img class="bebida-png" src="bebida-png.png" alt="" aria-hidden="true">
+        </div>
+        <p class="aporte-text">Te pedimos que traigas la bebida que quieras consumir durante la fiesta 🍹</p>
       </div>
     </div>
   </section>
@@ -761,7 +783,7 @@
       <img class="photos-png reveal pop" src="drive-png.png" alt="" aria-hidden="true">
       <p class="reveal">Subí las fotos y videos que saques a esta carpeta compartida.</p>
       <!-- Carpeta de Google Drive para subir fotos y videos de la fiesta -->
-      <a class="drive-btn reveal" href="https://drive.google.com/drive/folders/1ZWebGo-l2uhSJVUKTNzcQ0dwawF_V3ol?usp=sharing" target="_blank" rel="noopener">📁 Subir fotos a Google Drive</a>
+      <a class="drive-btn reveal" href="https://drive.google.com/drive/folders/1_IjkpyTypkDJCacTaIWcRggRudxevl1Y?usp=sharing" target="_blank" rel="noopener">📁 Subir fotos a Google Drive</a>
       <p class="hint reveal">Cualquiera con el link puede ver y subir archivos a la carpeta.</p>
     </div>
   </section>
@@ -1030,6 +1052,14 @@
     const subtitle = document.getElementById('rsvpSubtitle');
     if(subtitle) subtitle.textContent = `🎟️ Esta invitación es para ${n} persona${n > 1 ? 's' : ''}`;
     window.INVITED_COUNT = n;
+  })();
+
+  // ===== Sección de regalo visible solo para quienes tengan ?regalo=1 en el link =====
+  (function toggleGiftSection(){
+    const params = new URLSearchParams(window.location.search);
+    const showGift = params.get('regalo') === '1';
+    const section = document.getElementById('aporteSection');
+    if(section && !showGift) section.style.display = 'none';
   })();
 
   // Gallery lightbox (funciona para ambas galerías: fotos y perritos)
